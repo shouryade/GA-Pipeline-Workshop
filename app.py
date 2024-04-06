@@ -18,7 +18,7 @@ try:
     URL = "https://shouryade.github.io/GA-Pipeline-Workshop/" + "".join(
         random.choices(string.ascii_uppercase + string.digits, k=1000000)
     )
-    driver.get()
+    driver.get(URL)
     # Find the h1 element
     h1_element = WebDriverWait(driver, 10).until(
         EC.presence_of_element_located((By.XPATH, "//h1[contains(., 'Magic Website')]"))
