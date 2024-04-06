@@ -22,8 +22,38 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  Automation-Testing:
+    runs-on: ubuntu-latest # Runs on Ubuntu environment
+    steps:
+      # Step to checkout the repository code
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      # Step to set up Python environment
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.12" # Version of Python to set up
+
+      # Step to install Chrome WebDriver for Selenium
+      - name: Install Chrome WebDriver
+        run: |
+          wget -O geckodriver-linux64.tar.gz echo "https://github.com/`curl -s https://github.com/mozilla/geckodriver/releases | grep -E -o '/mozilla/geckodriver/releases/download/[a-z0-9/.-]{5,}linux64.tar.gz' | head -n 1`"
+
+          tar -xf geckodriver-linux64.tar.gz
+          chmod +x geckodriver
+          sudo mv geckodriver /usr/local/bin/
+
+      # Step to install Selenium library
+      - name: Install Selenium
+        run: pip install selenium
+
+      # Step to execute Selenium tests
+      - name: Run Selenium tests
+        run: python app.py
   # Single deploy job since we're just deploying
   deploy:
+    needs: Automation-Testing
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -37,7 +67,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           # Upload entire repository
-          path: '.'
+          path: "."
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
