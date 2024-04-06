@@ -23,17 +23,16 @@ concurrency:
 
 jobs:
   sonarcloud:
-    needs: Automation-Testing
     name: SonarCloud
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
   Automation-Testing:
     needs: sonarcloud
@@ -74,7 +73,7 @@ jobs:
       #     git commit -m "Add screenshot taken during Selenium test"
       #     git push
   # Single deploy job since we're just deploying
-  
+
   deploy:
     needs: Automation-Testing
     environment:
