@@ -22,6 +22,11 @@ try:
         EC.presence_of_element_located((By.XPATH, "//h1[contains(., 'Magic Website')]"))
     )
     print("Test Passed: Found h1 tag containing 'Magic Website'")
+    driver.save_screenshot(
+        "screenshot_{}.png".format(
+            "".join(random.choices(string.ascii_uppercase + string.digits, k=6))
+        )
+    )
 
 except Exception as e:
     print("Test Failed:", e)
