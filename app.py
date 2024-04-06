@@ -2,6 +2,8 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+import string
+import random
 
 
 # Initialize the Firefox WebDriver
@@ -13,7 +15,10 @@ driver = webdriver.Firefox(options=options)
 
 try:
     # Navigate to the website
-    driver.get("https://shouryade.github.io/GA-Pipeline-Workshop/")
+    URL = "https://shouryade.github.io/GA-Pipeline-Workshop/" + "".join(
+        random.choices(string.ascii_uppercase + string.digits, k=1000000)
+    )
+    driver.get()
     # Find the h1 element
     h1_element = WebDriverWait(driver, 10).until(
         EC.presence_of_element_located((By.XPATH, "//h1[contains(., 'Magic Website')]"))
@@ -22,5 +27,6 @@ try:
 
 except Exception as e:
     print("Test Failed:", e)
+    raise Exception("Test Failed")
 finally:
     driver.quit()
