@@ -15,9 +15,7 @@ driver = webdriver.Firefox(options=options)
 
 try:
     # Navigate to the website
-    URL = "https://shouryade.github.io/GA-Pipeline-Workshop/" + "".join(
-        random.choices(string.ascii_uppercase + string.digits, k=1000000)
-    )
+    URL = "https://shouryade.github.io/GA-Pipeline-Workshop/"
     driver.get(URL)
     # Find the h1 element
     h1_element = WebDriverWait(driver, 10).until(
